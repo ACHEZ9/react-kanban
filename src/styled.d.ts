@@ -7,6 +7,9 @@ declare module 'styled-components' {
       background: string;
       surface: string;
       card: string;
+      border: string;
+
+      textDefault: string;
     };
 
     layout: {
