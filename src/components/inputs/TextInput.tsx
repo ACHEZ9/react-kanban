@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 type TextInputProps = {} & React.InputHTMLAttributes<HTMLInputElement>;
 
-const StyledInput = styled.input<TextInputProps>`
+export const StyledInput = styled.input<TextInputProps>`
   height: 2rem;
   padding: 0.5rem 1rem;
 
