@@ -1,5 +1,7 @@
 import PlusIcon from 'components/icons/PlusIcon';
+import { useState } from 'react';
 import styled from 'styled-components';
+import TaskForm from '../Task/TaskForm';
 
 type LaneHeaderProps = {
   title: string;
@@ -26,12 +28,29 @@ const StyledButton = styled.button`
 `;
 
 export default function LaneHeader({ title }: LaneHeaderProps) {
+  const [showNewTask, setShowNewTask] = useState(false);
+
+  const onClickNewTask = () => {
+    setShowNewTask(true);
+  };
+
+  const onCreateNewTask = () => {};
+
+  const onCancelNewTask = () => {
+    setShowNewTask(false);
+  };
+
   return (
-    <StyledLaneHeader>
-      <StyledTitle>{title}</StyledTitle>
-      <StyledButton type="button" title="Add task">
-        <PlusIcon />
-      </StyledButton>
-    </StyledLaneHeader>
+    <>
+      <StyledLaneHeader>
+        <StyledTitle>{title}</StyledTitle>
+        <StyledButton type="button" title="Add task" onClick={onClickNewTask}>
+          <PlusIcon />
+        </StyledButton>
+      </StyledLaneHeader>
+      {showNewTask && (
+        <TaskForm onSubmit={onCreateNewTask} onCancel={onCancelNewTask} />
+      )}
+    </>
   );
 }

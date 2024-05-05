@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import TaskForm from '../Task/TaskForm';
 import LaneHeader from './LaneHeader';
 
 export type LaneProps = { title: string };
@@ -18,9 +17,6 @@ export default function Lane({ title }: LaneProps) {
   return (
     <StyledLane>
       <LaneHeader title={title} />
-      <div>
-        <TaskForm />
-      </div>
     </StyledLane>
   );
 }

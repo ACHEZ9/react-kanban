@@ -5,6 +5,11 @@ import Card from 'components/layout/Card/Card';
 import FormField from 'components/layout/Form/FormField';
 import styled from 'styled-components';
 
+type TaskFormProps = {
+  onSubmit: () => void;
+  onCancel: () => void;
+};
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -16,10 +21,15 @@ const StyledButtonContainer = styled.div`
   gap: 0.5rem;
 `;
 
-export default function TaskForm() {
+export default function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
   return (
     <Card>
-      <StyledForm>
+      <StyledForm
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          onSubmit();
+        }}
+      >
         <FormField label="Title" labelFor="title">
           <TextInput id="title" name="Title" />
         </FormField>
@@ -33,7 +43,7 @@ export default function TaskForm() {
           <Button type="submit" variant="primary">
             Save Task
           </Button>
-          <Button type="button" variant="secondary">
+          <Button type="button" variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
         </StyledButtonContainer>
