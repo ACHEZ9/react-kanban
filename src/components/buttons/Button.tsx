@@ -29,6 +29,7 @@ const StyledButton = styled.button<ButtonProps>`
     disabled &&
     css`
       opacity: 50%;
+      cursor: not-allowed;
     `}
 
   ${({ variant, theme }) =>

@@ -1,7 +1,9 @@
+import { Lane as LaneType } from 'data/Board/types';
 import styled from 'styled-components';
 import LaneHeader from './LaneHeader';
+import TaskList from './TaskList';
 
-export type LaneProps = { title: string };
+export type LaneProps = { lane: LaneType };
 
 const StyledLane = styled.section`
   display: flex;
@@ -13,10 +15,11 @@ const StyledLane = styled.section`
   gap: 1rem;
 `;
 
-export default function Lane({ title }: LaneProps) {
+export default function Lane({ lane }: LaneProps) {
   return (
     <StyledLane>
-      <LaneHeader title={title} />
+      <LaneHeader lane={lane} />
+      <TaskList laneId={lane.id} />
     </StyledLane>
   );
 }

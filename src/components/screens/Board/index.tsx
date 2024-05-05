@@ -1,5 +1,6 @@
+import useBoardStore from 'data/Board/store';
 import styled from 'styled-components';
-import Column from './Lane/Lane';
+import Lane from './Lane/Lane';
 
 const StyledBoard = styled.div`
   display: flex;
@@ -18,11 +19,13 @@ const StyledBoard = styled.div`
 `;
 
 export default function Board() {
+  const lanes = useBoardStore((state) => state.lanes);
+
   return (
     <StyledBoard>
-      <Column title="To Do" />
-      <Column title="In Progress" />
-      <Column title="Done" />
+      {lanes.map((lane) => (
+        <Lane key={lane.id} lane={lane} />
+      ))}
     </StyledBoard>
   );
 }

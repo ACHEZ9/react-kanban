@@ -1,10 +1,12 @@
 import PlusIcon from 'components/icons/PlusIcon';
+import useBoardStore from 'data/Board/store';
+import { Lane, Task } from 'data/Board/types';
 import { useState } from 'react';
 import styled from 'styled-components';
 import TaskForm from '../Task/TaskForm';
 
 type LaneHeaderProps = {
-  title: string;
+  lane: Lane;
 };
 
 const StyledLaneHeader = styled.header`
@@ -27,14 +29,19 @@ const StyledButton = styled.button`
   padding: 0;
 `;
 
-export default function LaneHeader({ title }: LaneHeaderProps) {
+export default function LaneHeader({ lane }: LaneHeaderProps) {
+  const createTask = useBoardStore((state) => state.createTask);
+
   const [showNewTask, setShowNewTask] = useState(false);
 
   const onClickNewTask = () => {
     setShowNewTask(true);
   };
 
-  const onCreateNewTask = () => {};
+  const onCreateNewTask = (task: Omit<Task, 'id'>) => {
+    createTask(lane.id, task);
+    setShowNewTask(false);
+  };
 
   const onCancelNewTask = () => {
     setShowNewTask(false);
@@ -43,7 +50,7 @@ export default function LaneHeader({ title }: LaneHeaderProps) {
   return (
     <>
       <StyledLaneHeader>
-        <StyledTitle>{title}</StyledTitle>
+        <StyledTitle>{lane.title}</StyledTitle>
         <StyledButton type="button" title="Add task" onClick={onClickNewTask}>
           <PlusIcon />
         </StyledButton>
