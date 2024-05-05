@@ -10,6 +10,7 @@ const defaultTheme: DefaultTheme = {
 
   layout: {
     headerHeight: '6rem',
+    borderRadius: '7px',
   },
 };
 

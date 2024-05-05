@@ -11,6 +11,7 @@ declare module 'styled-components' {
 
     layout: {
       headerHeight: string;
+      borderRadius: string;
     };
   }
 }
