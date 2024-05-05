@@ -11,12 +11,6 @@
   height: calc(100% - 8rem);
 }
 
-board::after {
-  content: '.';
-  visibility: hidden;
-  padding-right: '0.01px';
-}
-
 board::-webkit-scrollbar {
   display: none;
 }

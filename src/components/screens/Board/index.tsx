@@ -1,13 +1,28 @@
-import Column from './Column';
+import styled from 'styled-components';
+import Column from './Lane/Lane';
 
-import styles from './index.module.css';
+const StyledBoard = styled.div`
+  display: flex;
+  column-gap: 3rem;
+  max-width: 100vw;
+  padding: 4rem 3rem;
+  flex: 1;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 export default function Board() {
   return (
-    <div className={styles.board}>
-      <Column title="To do" />
-      <Column title="In progress" />
+    <StyledBoard>
+      <Column title="To Do" />
+      <Column title="In Progress" />
       <Column title="Done" />
-    </div>
+    </StyledBoard>
   );
 }
