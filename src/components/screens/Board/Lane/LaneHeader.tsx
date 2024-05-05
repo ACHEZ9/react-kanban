@@ -3,6 +3,7 @@ import useBoardStore from 'data/Board/store';
 import { Lane, Task } from 'data/Board/types';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useShallow } from 'zustand/react/shallow';
 import TaskForm from '../Task/TaskForm';
 
 type LaneHeaderProps = {
@@ -31,10 +32,16 @@ const StyledButton = styled.button`
 
 export default function LaneHeader({ lane }: LaneHeaderProps) {
   const createTask = useBoardStore((state) => state.createTask);
+  const taskCount = useBoardStore(
+    useShallow((state) => state.getTasks(lane.id).length),
+  );
 
   const [showNewTask, setShowNewTask] = useState(false);
 
   const onClickNewTask = () => {
+    if (taskCount >= 100) {
+      // TODO: Show message if at limit
+    }
     setShowNewTask(true);
   };
 
