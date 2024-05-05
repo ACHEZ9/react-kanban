@@ -8,8 +8,10 @@ type TaskListProps = {
 
 const StyledTaskList = styled.div`
   display: flex;
+  flex-direction: column;
   overflow-y: auto;
   width: 100%;
+  gap: 1rem;
 `;
 
 export default function TaskList({ laneId }: TaskListProps) {

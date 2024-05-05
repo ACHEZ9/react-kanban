@@ -7,10 +7,6 @@ type TaskProps = {
   task: TaskType;
 };
 
-const StyledCardContainer = styled.div`
-  flex: 1;
-`;
-
 const StyledCardHeader = styled.div`
   display: flex;
 `;
@@ -30,14 +26,12 @@ const StyledDescription = styled.text`
 
 const Task = memo(({ task }: TaskProps) => {
   return (
-    <StyledCardContainer>
-      <Card gap="0.25rem">
-        <StyledCardHeader>
-          <StyledTitle>{task.title}</StyledTitle>
-        </StyledCardHeader>
-        <StyledDescription>{task.description}</StyledDescription>
-      </Card>
-    </StyledCardContainer>
+    <Card gap="0.25rem">
+      <StyledCardHeader>
+        <StyledTitle>{task.title}</StyledTitle>
+      </StyledCardHeader>
+      <StyledDescription>{task.description}</StyledDescription>
+    </Card>
   );
 });
 
