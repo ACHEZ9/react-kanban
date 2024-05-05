@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { generateUUID } from './service';
 import { Lane, Task } from './types';
@@ -27,16 +28,20 @@ const initialState = (): BoardState => {
 };
 
 const useBoardStore = create<BoardState & BoardActions>()(
-  immer((set, get) => ({
-    ...initialState(),
-    createTask: (laneId, task) => {
-      const newTask: Task = { id: generateUUID(), ...task };
-      set((state) => {
-        state.lanes.find((l) => l.id === laneId)?.tasks.push(newTask);
-      });
-    },
-    getTasks: (laneId) => get().lanes.find((l) => l.id === laneId)?.tasks ?? [],
-  })),
+  persist(
+    immer((set, get) => ({
+      ...initialState(),
+      createTask: (laneId, task) => {
+        const newTask: Task = { id: generateUUID(), ...task };
+        set((state) => {
+          state.lanes.find((l) => l.id === laneId)?.tasks.push(newTask);
+        });
+      },
+      getTasks: (laneId) =>
+        get().lanes.find((l) => l.id === laneId)?.tasks ?? [],
+    })),
+    { name: 'close-takehome-board-store' },
+  ),
 );
 
 export default useBoardStore;
