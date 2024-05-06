@@ -1,5 +1,6 @@
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import useBoardStore from 'data/Board/store';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import Lane from './Lane/Lane';
 
@@ -23,6 +24,20 @@ export default function Board() {
   const lanes = useBoardStore((state) => state.lanes);
   const reorderTasks = useBoardStore((state) => state.reorderTasks);
   const moveTask = useBoardStore((state) => state.moveTask);
+
+  useEffect(() => {
+    const updateStore = (e: StorageEvent) => {
+      if (e.key === 'close-takehome-board-store') {
+        useBoardStore.persist.rehydrate();
+      }
+    };
+
+    window.addEventListener('storage', updateStore);
+
+    return () => {
+      window.removeEventListener('storage', updateStore);
+    };
+  }, []);
 
   const onDragEnd = (result: DropResult): void => {
     const { source, destination } = result;
