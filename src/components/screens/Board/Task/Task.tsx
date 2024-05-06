@@ -1,3 +1,4 @@
+import Avatar from 'components/avatar/Avatar';
 import Card from 'components/layout/Card/Card';
 import { Task as TaskType } from 'data/Board/types';
 import { memo } from 'react';
@@ -9,6 +10,8 @@ type TaskProps = {
 
 const StyledCardHeader = styled.div`
   display: flex;
+  gap: 0.5rem;
+  align-items: center;
 `;
 
 const StyledTitle = styled.div`
@@ -26,8 +29,9 @@ const StyledDescription = styled.div`
 
 const Task = memo(({ task }: TaskProps) => {
   return (
-    <Card gap="0.25rem">
+    <Card gap="0.5rem">
       <StyledCardHeader>
+        <Avatar email={task.email} />
         <StyledTitle>{task.title}</StyledTitle>
       </StyledCardHeader>
       <StyledDescription>{task.description}</StyledDescription>
