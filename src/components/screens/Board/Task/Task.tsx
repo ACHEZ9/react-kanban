@@ -18,7 +18,7 @@ const StyledTitle = styled.div`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-const StyledDescription = styled.text`
+const StyledDescription = styled.div`
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.25rem;

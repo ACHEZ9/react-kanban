@@ -1,3 +1,4 @@
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import useBoardStore from 'data/Board/store';
 import styled from 'styled-components';
 import Lane from './Lane/Lane';
@@ -20,12 +21,38 @@ const StyledBoard = styled.div`
 
 export default function Board() {
   const lanes = useBoardStore((state) => state.lanes);
+  const reorderTasks = useBoardStore((state) => state.reorderTasks);
+  const moveTask = useBoardStore((state) => state.moveTask);
+
+  const onDragEnd = (result: DropResult): void => {
+    const { source, destination } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (source.droppableId === destination.droppableId) {
+      if (source.index === destination.index) {
+        return;
+      }
+      reorderTasks(source.droppableId, source.index, destination.index);
+    } else {
+      moveTask(
+        source.droppableId,
+        source.index,
+        destination.droppableId,
+        destination.index,
+      );
+    }
+  };
 
   return (
-    <StyledBoard>
-      {lanes.map((lane) => (
-        <Lane key={lane.id} lane={lane} />
-      ))}
-    </StyledBoard>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <StyledBoard>
+        {lanes.map((lane) => (
+          <Lane key={lane.id} lane={lane} />
+        ))}
+      </StyledBoard>
+    </DragDropContext>
   );
 }

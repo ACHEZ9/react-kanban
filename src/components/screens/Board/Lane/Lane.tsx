@@ -1,3 +1,4 @@
+import { Droppable } from '@hello-pangea/dnd';
 import { Lane as LaneType } from 'data/Board/types';
 import styled from 'styled-components';
 import LaneHeader from './LaneHeader';
@@ -5,7 +6,9 @@ import TaskList from './TaskList';
 
 export type LaneProps = { lane: LaneType };
 
-const StyledLane = styled.section`
+type DroppableStyles = { isDragOver?: boolean };
+
+const StyledLane = styled.section<DroppableStyles>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.surface};
@@ -17,9 +20,14 @@ const StyledLane = styled.section`
 
 export default function Lane({ lane }: LaneProps) {
   return (
-    <StyledLane>
-      <LaneHeader lane={lane} />
-      <TaskList laneId={lane.id} />
-    </StyledLane>
+    <Droppable key={lane.id} droppableId={lane.id}>
+      {(provided, snapshot) => (
+        <StyledLane ref={provided.innerRef} {...provided.droppableProps}>
+          <LaneHeader lane={lane} />
+          <TaskList laneId={lane.id} />
+          {provided.placeholder}
+        </StyledLane>
+      )}
+    </Droppable>
   );
 }
