@@ -23,7 +23,11 @@ export default function TaskList({ laneId }: TaskListProps) {
   const tasks = useBoardStore((state) => state.getTasks(laneId));
 
   return (
-    <Droppable key={laneId} droppableId={laneId}>
+    <Droppable
+      key={laneId}
+      droppableId={laneId}
+      isDropDisabled={tasks.length === 100}
+    >
       {(provided, snapshot) => (
         <StyledTaskList ref={provided.innerRef} {...provided.droppableProps}>
           {tasks.map((task, index) => (
