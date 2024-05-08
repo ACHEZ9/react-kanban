@@ -41,6 +41,7 @@ export default function LaneHeader({ lane }: LaneHeaderProps) {
   const onClickNewTask = () => {
     if (taskCount >= 100) {
       // TODO: Show message if at limit
+      return;
     }
     setShowNewTask(true);
   };
