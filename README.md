@@ -1,69 +1,50 @@
-# Close Frontend Take-Home Challenge
+This PR is the submission of my Close take home assignment. 
 
-_Context: If you're seeing this, it means we'd like to see how you would solve a real-world problem. But to be totally clear, we won't be using your design or code for anything beyond deciding on moving forward in the hiring process._
+**A quick outline/commentary on your UI and technical decisions with a self-critique.**
 
-## Kanban Board
+For the UI, I followed the [Figma spec](https://www.figma.com/file/u1J2vVSR38Js0na6MWAYKh/Frontend-Take-Home) as closely as possible. There are some additional updates I would make to various components and interactions given more time, as I will discuss further in the "What you would continue iterating on if you had more time" section.
 
-### Overview / Background
+I decided to use [styled-components](https://github.com/styled-components/styled-components) for the styling and theming in my project. I am very familiar and fond of the library, and felt that I could build components the quickest this way.
 
-Your goal is to implement a simple Kanban Board that allows users to create tasks and move them between columns.
+For state management, I went with [zustand](https://github.com/pmndrs/zustand). I had never used zustand before, but have been hearing about it for a bit and thought this was a good opportunity to test it out. I normally use [redux-toolkit](https://github.com/reduxjs/redux-toolkit) when an external state management approach is desired, but thought the simpler approach of zustand made for a good use case in this project. Zustand also includes a [`persist`](https://docs.pmnd.rs/zustand/integrations/persisting-store-data) middleware, which made persisting the state to localstorage very simple.
 
-You can assume the screen you'll build would live within a larger web application. This challenge is only concerned with helping users manage tasks of a particular project. You don't need to be concerned with the navigation between screens.
+I stuck with the [hello-pangea/dnd](https://github.com/hello-pangea/dnd) library for Drag-and-Drop interactions. It made adding the functionality fairly trivial.
 
-### Design spec
+**Screenshots/GIFs of your UI and interactions.**
 
-Click the image below to open the Design spec in Figma.
+![Screenshot 2024-05-07 at 9 14 30 AM](https://github.com/close-takehomes/frontend-AChesarone/assets/80048782/210b8d57-83cb-4809-8c43-4e26d39315e9)
+![Screenshot 2024-05-07 at 9 14 53 AM](https://github.com/close-takehomes/frontend-AChesarone/assets/80048782/a29068bf-82de-4184-a144-285b4920e823)
+![add_task](https://github.com/close-takehomes/frontend-AChesarone/assets/80048782/0f8d8ca6-8448-46c9-aa57-7d286ec1ae11)
+![dnd](https://github.com/close-takehomes/frontend-AChesarone/assets/80048782/045daf51-672f-4b99-ac2b-18636e4a3bcd)
+![tab-sync](https://github.com/close-takehomes/frontend-AChesarone/assets/80048782/bc1d01c7-c642-4a89-aff7-5f7b68597563)
 
-[![Screenshot](https://user-images.githubusercontent.com/7298695/231846280-43256a33-f4fa-49b3-bd3f-27a9d06dcab0.png)](https://www.figma.com/file/u1J2vVSR38Js0na6MWAYKh/Frontend-Take-Home)
 
 
-### UI/UX Requirements
+**What tests you performed.**
 
-- The layout/design must match the spec above.
-- There must be three columns:
-  - To do
-  - In progress
-  - Done
-- Each column may contain N cards (maximum of 100).
-- Each card must show a [Gravatar](https://en.gravatar.com/site/implement/images/), a title, and a description.
-- The user can drag the card around (drag within a column to re-order or move it to another column).
-- The user can add a new card by clicking `+` on any of the columns.
-- The board must take the entire height of the available screen (respecting the spacing around it).
-- Each column must be scrollable, although its header must remain fixed.
-- The changes must be persisted after a refresh (only locally).
-- In case the board is open in two different tabs: whenever something changes on one tab, the others must be updated.
+I performed general manual testing of the various features, ensuring to attempt to capture edge cases. For example I tested:
+- Adding a new Task, with required fields and without.
+- Reloading page to ensure persisted to localstorage.
+- Cross-tab syncing.
+- Drag and Drop functionality.
+- Gravatar image loading with known/unknown emails.
 
-### Technical Requirements
+I also added a few tests, though would add more if I had more time (see below). I focused on what I thought were the most 'complex' function, `reorder` and `move`. I added a single test for each, though testing different scenarios of these functions should be added (for example, adding/removing from beginning and end of arrays, moving to empty arrays, etc.)
 
-- Create sensible git commits as you work on a solution.
-- The starting point is `src/components/screens/Board`, you can edit from there and create as many files as you want.
-- The project was bootstrapped with TypeScript but our `tsconfig` allows JS, so please choose the language you feel more comfortable with.
-- We pre-installed `@hello-pangea/dnd` which we think is a great fit for this project, but please feel free to replace it with any library you're more familiar with.
-- You may install 3rd party libraries to simplify the development.
-- The board data must be persisted in the `localStorage`.
-- You must use React hooks to build the UI.
-- You may manage state in whatever way you want.
-- The UI should be accessible via keyboard navigation.
-- Make sure to avoid re-rendering of other cards when creating/moving a card.
-- We expect you to write at least a few tests.
+**What you would continue iterating on if you had more time.**
 
-### Grading criteria
+There are a few areas I would continue iterating on if I had more time:
 
-The ordering of criteria is arbitrary.
+- UI - I tried to capture a few small interactions in the Components, for example `hover` state of buttons, but there are additional UI/UX improvements I would make. Some examples are:
+    - The 'Add Task' button does not have any feedback. It also might be nice to `rotate` the icon to a close icon to allow closing the 'Task Form' from there as well. I found myself expecting that would toggle open/close the form.
+    - The 'Task Form' pops in and out, a transition would be nice.
+    - There are no UI updates when dragging Items, the `dnd` library provides some state that would allow us to alter the styles of both the `Lane` on drag over and the `Task` when it is being dragged.
+    - The 100 Tasks/Lane limit does not provide any feedback to the user. A toast or some form of message would be useful.
 
-- Implementing all required functionality.
-- Code quality and structure should be your #1 goal.
-- Creating great UX/UI.
-- Self-critique (see below)
+- State Management - I took a simple approach of storing the Lanes and Tasks in arrays. When wanting to find a Lane by Id, this means I need to iterate over the array to get the correct Lane. Not a big performance issue, as there are 3 items in the array, but a potential improvement would be to store the Ids of the Lanes in an array, and then have another object that keys Lane Ids to the Lanes.
 
-### Goal and deliverables
+- Tests - Add additional tests to the current `move` and `reorder` tests, to capture edge cases. Add additional UI test to various components, specifically those with interactivity (`TaskForm`).
 
-Start a new branch and, when you're done, open a Pull Request including:
+**How much time you spent on the Take-Home.**
 
-- A quick outline/commentary on your UI and technical decisions with a self-critique.
-- Screenshots/GIFs of your UI and interactions.
-- What tests you performed.
-- What you would continue iterating on if you had more time.
-- How much time you spent on the Take-Home.
-
-Please let us know on [fe-takehome@close.com with subject "Frontend Take-Home"](mailto:fe-takehome@close.com?Subject=Frontend%20Take-Home) after you're done. Please don't publish the project or code publicly.
+I spent about 6 hours on the Take-Home, which was the time recommended in the email.
